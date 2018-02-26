@@ -1,20 +1,52 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-toolbar color="primary">
+  Angular Material - File Input
+</mat-toolbar>
 
+<div style="padding: 7px">
+
+  <form [formGroup]="formDoc" (ngSubmit)="onSubmit()" novalidate>
+
+    <mat-form-field>
+      <app-input-file formControlName="basicfile" placeholder="Basic Input"></app-input-file>
+      <mat-icon matSuffix>folder</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field>
+      <app-input-file formControlName="requiredfile" placeholder="Required input" valuePlaceholder="No file selected" required></app-input-file>
+      <mat-icon matSuffix>folder</mat-icon>
+      <mat-error *ngIf="formDoc.get('requiredfile').hasError('required')">
+        Please select a file
+      </mat-error>
+      <mat-error *ngIf="formDoc.get('requiredfile').hasError('maxContentSize')">
+        The total size must not exceed {{formDoc.get('requiredfile')?.getError('maxContentSize').maxSize | byteFormat}} ({{formDoc.get('requiredfile')?.getError('maxContentSize').actualSize
+        | byteFormat}}).
+      </mat-error>
+    </mat-form-field>
+    <pre>{{formDoc.get('requiredfile').errors | json}}</pre>
+
+    <mat-form-field>
+      <app-input-file formControlName="disabledfile" placeholder="Disabled Input"></app-input-file>
+      <mat-icon matSuffix>folder</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field>
+      <app-input-file formControlName="multiplefile" placeholder="Multiple inputs" multiple></app-input-file>
+      <mat-icon matSuffix>folder</mat-icon>
+    </mat-form-field>
+
+    <button type="submit" [disabled]="formDoc.invalid" mat-raised-button>Submit</button>
+
+    <hr>
+    <p>Angular Version: {{ngVersion.full}}</p>
+    <p>Material Version: {{version?.commit.author.date | json}}</p>
+
+  </form>
+
+
+</div>
+
+<!--
+  Copyright 2017 Google LLC. All Rights Reserved.
+  Use of this source code is governed by an MIT-style license that
+  can be found in the LICENSE file at http://angular.io/license
+-->
